@@ -20,9 +20,13 @@ def test_render_has_white_background_at_corners():
 
 def test_render_has_black_text_pixels():
     img = render_label("MCUs")
-    pixels = list(img.getdata())
-    black = [p for p in pixels if p == (0, 0, 0)]
-    assert len(black) > 0
+    w, h = img.size
+    black_found = any(
+        img.getpixel((x, y)) == (0, 0, 0)
+        for y in range(h)
+        for x in range(w)
+    )
+    assert black_found
 
 
 def test_render_long_text_does_not_crash():

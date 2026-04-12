@@ -9,10 +9,6 @@ from labeler.renderer import FONT_PATH, render_label
 
 
 def main() -> None:
-    if not Path(FONT_PATH).exists():
-        print(f"Error: font not found: {FONT_PATH}", file=sys.stderr)
-        sys.exit(1)
-
     parser = argparse.ArgumentParser(description="Print labels for multiboard drawers")
     parser.add_argument("labels", nargs="+", metavar="LABEL", help="Text for each label")
     parser.add_argument(
@@ -28,6 +24,10 @@ def main() -> None:
         help="Render but do not print or save",
     )
     args = parser.parse_args()
+
+    if not args.dry_run and not Path(FONT_PATH).exists():
+        print(f"Error: font not found: {FONT_PATH}", file=sys.stderr)
+        sys.exit(1)
 
     for i, text in enumerate(args.labels, start=1):
         image = render_label(text)

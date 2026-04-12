@@ -1,9 +1,6 @@
 import pytest
 from labeler.layout import compute_layout, _split_text
-
-FONT_PATH = "/usr/share/fonts/truetype/dejavu/DejaVuSans-Bold.ttf"
-USABLE_W = 545
-USABLE_H = 77
+from labeler.renderer import FONT_PATH, USABLE_W, USABLE_H
 
 
 def test_short_text_fits_single_row():

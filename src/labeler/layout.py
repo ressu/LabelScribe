@@ -1,5 +1,6 @@
 from __future__ import annotations
 
+import sys
 from dataclasses import dataclass
 
 from PIL import ImageFont
@@ -66,8 +67,9 @@ def compute_layout(
             break
 
     # Prefer the layout that allows the larger font size.
-    if two_size >= single_size and two_size >= MIN_FONT_SIZE:
+    if two_size > single_size and two_size >= MIN_FONT_SIZE:
         return LayoutResult(rows=[row1, row2], font_size=two_size)
     if single_size >= MIN_FONT_SIZE:
         return LayoutResult(rows=[text], font_size=single_size)
+    print(f"Warning: text too long to fit, clamped to minimum font size: {text!r}", file=sys.stderr)
     return LayoutResult(rows=[row1, row2], font_size=MIN_FONT_SIZE)

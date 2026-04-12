@@ -1,7 +1,9 @@
 import sys
 import subprocess
 from pathlib import Path
+from unittest.mock import patch
 
+import pytest
 from PIL import Image
 
 
@@ -42,3 +44,15 @@ def test_preview_writes_correct_image_size(tmp_path):
 def test_no_args_exits_nonzero():
     result = _run()
     assert result.returncode != 0
+
+
+def test_font_not_found_exits_with_error(capsys):
+    import labeler.__main__ as main_mod
+
+    with patch.object(main_mod, "FONT_PATH", "/nonexistent/font.ttf"):
+        with patch("sys.argv", ["labeler", "MCUs"]):
+            with pytest.raises(SystemExit) as exc_info:
+                main_mod.main()
+    assert exc_info.value.code == 1
+    captured = capsys.readouterr()
+    assert "font not found" in captured.err
