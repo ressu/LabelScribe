@@ -1,4 +1,4 @@
-# Multibuild Drawer Labeler
+# LabelScribe
 
 A CLI tool for generating and printing labels for [Multibuild](https://multibuild.io/) drawers using a Brother P-touch (PT-P750W) printer.
 
@@ -22,11 +22,11 @@ A CLI tool for generating and printing labels for [Multibuild](https://multibuil
 uv sync
 
 # Print labels
-uv run labeler "Resistors" "Capacitors" "MCUs"
+uv run labelscribe "Resistors" "Capacitors" "MCUs"
 
 # Preview labels as PNGs
-uv run labeler --preview ./out "Tools"
+uv run labelscribe --preview ./out "Tools"
 
 # Show options
-uv run labeler --help
+uv run labelscribe --help
 ```

@@ -1,4 +1,4 @@
-# Labeler
+# LabelScribe
 
 A CLI tool that generates and prints labels for multibuild drawers on a Brother
 PT-P750W label printer via CUPS. Labels are 12mm × 78mm TZe tape.
@@ -27,16 +27,16 @@ uv sync
 ### Running the Tool
 ```sh
 # Basic usage
-uv run labeler "Resistors" "Capacitors"
+uv run labelscribe "Resistors" "Capacitors"
 
 # Save previews instead of printing
-uv run labeler --preview ./out "MCUs" "Tools"
+uv run labelscribe --preview ./out "MCUs" "Tools"
 
 # Specify a different CUPS printer
-uv run labeler --printer "My_Printer_Name" "Label Text"
+uv run labelscribe --printer "My_Printer_Name" "Label Text"
 
 # Dry run (no rendering)
-uv run labeler --dry-run "Test Label"
+uv run labelscribe --dry-run "Test Label"
 ```
 
 ### Running Tests
