@@ -39,7 +39,8 @@ def test_print_labels_calls_lp_with_pdf_and_page_size():
     assert cmd[1] == "-d"
     assert cmd[2] == "PT-P750W"
     assert "-o" in cmd
-    assert any("PageSize=Custom." in arg for arg in cmd)
+    # Should be Custom.34x221 (Width x Length)
+    assert "PageSize=Custom.34x221" in cmd
     assert cmd[-1].endswith(".pdf")
 
 

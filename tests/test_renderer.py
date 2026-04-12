@@ -7,22 +7,22 @@ def test_render_returns_correct_size():
     assert img.size == (CANVAS_W, CANVAS_H)
 
 
-def test_render_is_rgb():
+def test_render_is_grayscale():
     img = render_label("MCUs")
-    assert img.mode == "RGB"
+    assert img.mode == "L"
 
 
 def test_render_has_white_background_at_corners():
     img = render_label("MCUs")
-    assert img.getpixel((0, 0)) == (255, 255, 255)
-    assert img.getpixel((CANVAS_W - 1, CANVAS_H - 1)) == (255, 255, 255)
+    assert img.getpixel((0, 0)) == 255
+    assert img.getpixel((CANVAS_W - 1, CANVAS_H - 1)) == 255
 
 
 def test_render_has_black_text_pixels():
     img = render_label("MCUs")
     w, h = img.size
     black_found = any(
-        img.getpixel((x, y)) == (0, 0, 0)
+        img.getpixel((x, y)) == 0
         for y in range(h)
         for x in range(w)
     )

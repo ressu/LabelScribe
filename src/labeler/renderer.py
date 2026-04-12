@@ -14,9 +14,9 @@ FONT_PATH = "/usr/share/fonts/truetype/dejavu/DejaVuSans-Bold.ttf"
 
 
 def render_label(text: str) -> Image.Image:
-    """Render text as a CANVAS_W × CANVAS_H RGB image."""
+    """Render text as a CANVAS_W × CANVAS_H L (grayscale) image."""
     layout = compute_layout(text, FONT_PATH, USABLE_W, USABLE_H)
-    img = Image.new("RGB", (CANVAS_W, CANVAS_H), color="white")
+    img = Image.new("L", (CANVAS_W, CANVAS_H), color="white")
     draw = ImageDraw.Draw(img)
     font = ImageFont.truetype(FONT_PATH, layout.font_size)
 
