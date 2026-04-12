@@ -4,7 +4,7 @@ import argparse
 import sys
 from pathlib import Path
 
-from labeler.printer import DEFAULT_PRINTER, print_label, save_label
+from labeler.printer import DEFAULT_PRINTER, print_labels, save_label
 from labeler.renderer import FONT_PATH, render_label
 
 
@@ -25,22 +25,28 @@ def main() -> None:
     )
     args = parser.parse_args()
 
-    if not args.dry_run and not Path(FONT_PATH).exists():
+    # Dry-run: no rendering or font required — just echo the label texts.
+    if args.dry_run:
+        for i, text in enumerate(args.labels, start=1):
+            print(f"[dry-run] Rendered label {i}: {text!r}")
+        return
+
+    if not Path(FONT_PATH).exists():
         print(f"Error: font not found: {FONT_PATH}", file=sys.stderr)
         sys.exit(1)
 
-    for i, text in enumerate(args.labels, start=1):
-        image = render_label(text)
-        if args.dry_run:
-            print(f"[dry-run] Rendered label {i}: {text!r}")
-        elif args.preview:
-            out_dir = Path(args.preview)
-            out_dir.mkdir(parents=True, exist_ok=True)
+    images = [render_label(text) for text in args.labels]
+
+    if args.preview:
+        out_dir = Path(args.preview)
+        out_dir.mkdir(parents=True, exist_ok=True)
+        for i, (text, image) in enumerate(zip(args.labels, images), start=1):
             out_path = out_dir / f"label_{i:02d}.png"
             save_label(image, str(out_path))
             print(f"Saved: {out_path}")
-        else:
-            print_label(image, args.printer)
+    else:
+        print_labels(images, args.printer)
+        for i, text in enumerate(args.labels, start=1):
             print(f"Printed label {i}: {text!r}")
 
 
