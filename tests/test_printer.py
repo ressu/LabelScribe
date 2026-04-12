@@ -8,7 +8,7 @@ from labeler.printer import DEFAULT_PRINTER, _save_pdf, print_labels, save_label
 
 
 def _white_image() -> Image.Image:
-    return Image.new("RGB", (553, 85), color="white")
+    return Image.new("RGB", (549, 85), color="white")
 
 
 def test_default_printer_name():
@@ -39,8 +39,8 @@ def test_print_labels_calls_lp_with_pdf_and_page_size():
     assert cmd[1] == "-d"
     assert cmd[2] == "PT-P750W"
     assert "-o" in cmd
-    # Should be Custom.34x221 (Width x Length)
-    assert "PageSize=Custom.34x221" in cmd
+    # Should be Custom.34x220 (Width x Length)
+    assert "PageSize=Custom.34x220" in cmd
     assert cmd[-1].endswith(".pdf")
 
 
@@ -63,4 +63,4 @@ def test_save_label_writes_valid_png(tmp_path):
     save_label(img, str(out))
     assert out.exists()
     loaded = Image.open(out)
-    assert loaded.size == (553, 85)
+    assert loaded.size == (549, 85)

@@ -38,7 +38,7 @@ def test_preview_saves_numbered_pngs(tmp_path):
 def test_preview_writes_correct_image_size(tmp_path):
     _run("--preview", str(tmp_path), "MCUs")
     img = Image.open(tmp_path / "label_01.png")
-    assert img.size == (553, 85)
+    assert img.size == (549, 85)
 
 
 def test_no_args_exits_nonzero():
