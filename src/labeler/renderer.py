@@ -4,6 +4,7 @@ from PIL import Image, ImageDraw, ImageFont
 
 from labeler.layout import compute_layout
 
+LABEL_DPI = 180
 CANVAS_W = 553
 CANVAS_H = 85
 MARGIN = 4
