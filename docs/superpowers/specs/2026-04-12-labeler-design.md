@@ -5,7 +5,7 @@
 
 ## Overview
 
-A CLI tool that generates and prints labels for multiboard drawers on a Brother PT-P750W label printer via CUPS. Labels are 12mm × 78mm TZe tape. Each positional argument to the command produces one label.
+A CLI tool that generates and prints labels for multibuild drawers on a Brother PT-P750W label printer via CUPS. Labels are 12mm × 78mm TZe tape. Each positional argument to the command produces one label.
 
 ## Label Dimensions & Rendering
 

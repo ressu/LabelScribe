@@ -572,7 +572,7 @@ def main() -> None:
         print(f"Error: font not found: {FONT_PATH}", file=sys.stderr)
         sys.exit(1)
 
-    parser = argparse.ArgumentParser(description="Print labels for multiboard drawers")
+    parser = argparse.ArgumentParser(description="Print labels for multibuild drawers")
     parser.add_argument("labels", nargs="+", metavar="LABEL", help="Text for each label")
     parser.add_argument(
         "--preview", metavar="PATH",
