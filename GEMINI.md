@@ -60,7 +60,6 @@ uv run pytest
 ## Key Files
 
 - `pyproject.toml`: Project metadata and dependencies.
-- `docs/superpowers/specs/2026-04-12-labeler-design.md`: Original design
-  specification.
+- `docs/specs/2026-04-12-labeler-design.md`: Original design specification.
 - `src/labeler/layout.py`: Core logic for fitting text onto the fixed-size
   label.
