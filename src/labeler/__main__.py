@@ -46,8 +46,9 @@ def main() -> None:
             print(f"Saved: {out_path}")
     else:
         print_labels(images, args.printer)
+        print(f"Printed {len(images)} label(s) to {args.printer}:")
         for i, text in enumerate(args.labels, start=1):
-            print(f"Printed label {i}: {text!r}")
+            print(f"  {i}. {text}")
 
 
 if __name__ == "__main__":
