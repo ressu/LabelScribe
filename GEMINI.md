@@ -1,3 +1,5 @@
+> See also `CLAUDE.md` for Claude Code guidance on this same project.
+
 # LabelScribe
 
 A CLI tool that generates and prints labels for multibuild drawers on a Brother
