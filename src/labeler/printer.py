@@ -11,10 +11,10 @@ from labeler.renderer import CANVAS_H, CANVAS_W, LABEL_DPI
 DEFAULT_PRINTER = "PT-P750W"
 
 # Label page size in PDF points (1 pt = 1/72 inch).
-# 553 px @ 180 dpi = 221 pt ≈ 78 mm (feed direction / page length)
+# 549 px @ 180 dpi = 220 pt ≈ 77.5 mm (feed direction / page length)
 #  85 px @ 180 dpi =  34 pt ≈ 12 mm (tape width)
 # Brother PPDs usually expect Custom.<Width>x<Length> where Width is tape width.
-_LABEL_W_PT = round(CANVAS_W * 72 / LABEL_DPI)  # 221
+_LABEL_W_PT = round(CANVAS_W * 72 / LABEL_DPI)  # 220
 _LABEL_H_PT = round(CANVAS_H * 72 / LABEL_DPI)  # 34
 _PAGE_SIZE = f"Custom.{_LABEL_H_PT}x{_LABEL_W_PT}"
 
@@ -27,7 +27,7 @@ def _save_pdf(images: list[Image.Image], path: str) -> None:
         if img.mode != "L":
             img = img.convert("L")
         # Rotate 90 degrees so the 12mm width (85px) becomes the width of the PDF page.
-        # expand=True ensures the dimensions are swapped (85x553).
+        # expand=True ensures the dimensions are swapped (85x549).
         processed.append(img.rotate(90, expand=True))
 
     processed[0].save(
