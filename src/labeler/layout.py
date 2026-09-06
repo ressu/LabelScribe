@@ -7,11 +7,23 @@ from PIL import ImageFont
 
 MIN_FONT_SIZE = 10
 
+# Multi-section labels: a thin vertical rule between sections plus inner padding
+# so text does not touch the divider.
+DIVIDER_W = 2
+SECTION_PAD = 10
+
 
 @dataclass
 class LayoutResult:
     rows: list[str]
     font_size: int
+
+
+@dataclass
+class SectionedLayout:
+    sections: list[LayoutResult]      # one per section, left to right
+    font_size: int                    # unified size used for every section
+    bounds: list[tuple[int, int]]     # (x_start, x_end) of each section on the canvas
 
 
 def _measure_width(text: str, font_path: str, size: int) -> int:
@@ -73,3 +85,37 @@ def compute_layout(
         return LayoutResult(rows=[text], font_size=single_size)
     print(f"Warning: text too long to fit, clamped to minimum font size: {text!r}", file=sys.stderr)
     return LayoutResult(rows=[row1, row2], font_size=MIN_FONT_SIZE)
+
+
+def compute_sectioned_layout(
+    sections: list[str],
+    font_path: str,
+    canvas_w: int,
+    usable_h: int,
+) -> SectionedLayout:
+    """Lay out several captions side by side in equal-width columns.
+
+    Each section is laid out independently with ``compute_layout`` inside its own
+    column, then all sections are rendered at the smallest of the per-section font
+    sizes so the label reads consistently.
+    """
+    n = len(sections)
+    if n < 2:
+        raise ValueError("compute_sectioned_layout requires at least 2 sections")
+
+    # Equal columns; hand the rounding remainder to the leftmost sections.
+    base_w, extra = divmod(canvas_w, n)
+    bounds: list[tuple[int, int]] = []
+    x = 0
+    for i in range(n):
+        col_w = base_w + (1 if i < extra else 0)
+        bounds.append((x, x + col_w))
+        x += col_w
+
+    results: list[LayoutResult] = []
+    for text, (x_start, x_end) in zip(sections, bounds):
+        section_usable_w = (x_end - x_start) - 2 * SECTION_PAD - DIVIDER_W
+        results.append(compute_layout(text, font_path, section_usable_w, usable_h))
+
+    font_size = max(MIN_FONT_SIZE, min(r.font_size for r in results))
+    return SectionedLayout(sections=results, font_size=font_size, bounds=bounds)

@@ -5,7 +5,12 @@ import sys
 from pathlib import Path
 
 from labeler.printer import DEFAULT_PRINTER, print_labels, save_label
-from labeler.renderer import FONT_PATH, render_label
+from labeler.renderer import FONT_PATH, SECTION_SEP, render_label
+
+
+def _sections_suffix(text: str) -> str:
+    n = len(text.split(SECTION_SEP))
+    return f" ({n} sections)" if n > 1 else ""
 
 
 def main() -> None:
@@ -28,7 +33,7 @@ def main() -> None:
     # Dry-run: no rendering or font required — just echo the label texts.
     if args.dry_run:
         for i, text in enumerate(args.labels, start=1):
-            print(f"[dry-run] Rendered label {i}: {text!r}")
+            print(f"[dry-run] Rendered label {i}: {text!r}{_sections_suffix(text)}")
         return
 
     if not Path(FONT_PATH).exists():
@@ -48,7 +53,7 @@ def main() -> None:
         print_labels(images, args.printer)
         print(f"Printed {len(images)} label(s) to {args.printer}:")
         for i, text in enumerate(args.labels, start=1):
-            print(f"  {i}. {text}")
+            print(f"  {i}. {text}{_sections_suffix(text)}")
 
 
 if __name__ == "__main__":

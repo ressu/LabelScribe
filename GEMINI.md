@@ -11,7 +11,8 @@ PT-P750W label printer via CUPS. Labels are 12mm × 78mm TZe tape.
 - **Technologies:** Python (>=3.11), Pillow (image rendering), `uv` (dependency
   management), CUPS (printing).
 - **Architecture:**
-    - `src/labeler/layout.py`: Handles font sizing and text wrapping logic.
+    - `src/labeler/layout.py`: Handles font sizing, text wrapping, and
+      `|`-delimited multi-section label layout.
     - `src/labeler/renderer.py`: Uses Pillow to generate label images.
     - `src/labeler/printer.py`: Submits jobs to CUPS or saves them as PNGs.
     - `src/labeler/__main__.py`: CLI entry point and orchestration.
@@ -30,6 +31,9 @@ uv sync
 ```sh
 # Basic usage
 uv run labelscribe "Resistors" "Capacitors"
+
+# Multi-section label for a divided bin ("|" splits one label into sections)
+uv run labelscribe "M3|M4|M5|M6"
 
 # Save previews instead of printing
 uv run labelscribe --preview ./out "MCUs" "Tools"

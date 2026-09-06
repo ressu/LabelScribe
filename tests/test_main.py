@@ -28,6 +28,20 @@ def test_dry_run_multiple_labels():
     assert "resistors" in result.stdout
 
 
+def test_dry_run_reports_section_count():
+    result = _run("--dry-run", "Resistors|Capacitors")
+    assert result.returncode == 0
+    assert "2 sections" in result.stdout
+
+
+def test_preview_sectioned_label_writes_one_correct_png(tmp_path):
+    result = _run("--preview", str(tmp_path), "M3|M4|M5|M6")
+    assert result.returncode == 0
+    img = Image.open(tmp_path / "label_01.png")
+    assert img.size == (549, 85)
+    assert not (tmp_path / "label_02.png").exists()
+
+
 def test_preview_saves_numbered_pngs(tmp_path):
     result = _run("--preview", str(tmp_path), "MCUs", "resistors")
     assert result.returncode == 0

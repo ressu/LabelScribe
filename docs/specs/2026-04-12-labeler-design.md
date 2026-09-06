@@ -21,6 +21,16 @@ A CLI tool that generates and prints labels for multibuild drawers on a Brother 
 2. If the text cannot fit at font size 10 px or larger on one row, split into two rows. Both rows use the same font size, chosen as the largest size where the longer row fits the usable width.
 3. Auto-splitting only — no manual row separator needed for now.
 
+### Multi-section labels
+
+A `|` in a label argument splits that single physical label into N equal-width
+sections (columns), one per compartment of a divided bin. `"A|B"` → 2 sections,
+`"M3|M4|M5|M6"` → 4; any N ≥ 2 works. `compute_sectioned_layout()` lays out each
+section independently with `compute_layout()` inside its own column, then renders
+every section at the smallest of the per-section font sizes for a consistent look.
+A thin vertical rule is drawn between sections. Empty sections (`"A||C"`) render
+blank. A literal `|` in label text is not supported.
+
 ## Architecture
 
 Three internal modules, each with a single responsibility:
@@ -48,6 +58,7 @@ labeler [OPTIONS] LABEL [LABEL ...]
 **Examples:**
 ```sh
 labeler "MCUs" "misc soldering tools" "capacitors"
+labeler "M3|M4|M5|M6"                 # one label, 4 sections for a divided bin
 labeler --preview ./out "MCUs" "resistors"
 labeler --dry-run "test label"
 ```
@@ -88,7 +99,7 @@ labeler/
 
 ## Out of Scope
 
-- Manual row splitting syntax (can be added later)
+- Manual row splitting syntax within a section (auto-split only)
 - Font selection via CLI flag (font path is a code constant)
 - Label templates or configuration files
 - GUI or web interface
